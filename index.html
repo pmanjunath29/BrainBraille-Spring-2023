@@ -1,0 +1,213 @@
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>WebVR - Aframe - VR walkthrough</title>
+    <meta name="description" content="WebVR - Aframe - VR walkthrough">
+    <meta name="author" content="Photos: Jeran Halfpap, Code modified from Kumar Ahir">
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-animation-component@^5.1.2/dist/aframe-animation-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+    <script>
+      const audio = new Audio("https://cdn.glitch.global/bf1829eb-b7dc-4e01-8258-79a8f5f373bf/mrifromscrew-52510.mp3?v=1681681447477");
+			audio.play();
+      AFRAME.registerComponent('hotspots',{
+        init:function(){
+            this.el.addEventListener('reloadspots',function(evt){
+            
+            //get the entire current spot group and scale it to 0
+            var currspotgroup=document.getElementById(evt.detail.currspots);
+            currspotgroup.setAttribute("scale","0 0 0");
+            
+            //get the entire new spot group and scale it to 1
+            var newspotgroup=document.getElementById(evt.detail.newspots);
+            newspotgroup.setAttribute("scale","1 1 1");
+          });
+        }
+      });
+      AFRAME.registerComponent('spot',{
+        schema:{
+          linkto:{type:"string",default:""},
+          spotgroup:{type:"string",default:""},
+          rotor:{type:"string",default:"0 -90 0"}, //we pass this as the default because thats what i started with when i did the data entry.
+        },
+        init:function(){
+          
+          //add image source of hotspot icon
+          this.el.setAttribute("src","#hotspot");
+          //make the icon look at the camera all the time
+          this.el.setAttribute("look-at","#cam");
+          
+          var data=this.data;
+          
+          this.el.addEventListener('click',function(){
+            //set the skybox source to the new image as per the spot
+            var sky=document.getElementById("skybox");
+            sky.setAttribute("src",data.linkto);
+            //set the skybox rotation using input data as needed.
+            sky.setAttribute("rotation",data.rotor);
+ 
+            var spotcomp=document.getElementById("spots");
+            var currspots=this.parentElement.getAttribute("id");
+            //create event for spots component to change the spots data
+            spotcomp.emit('reloadspots',{newspots:data.spotgroup,currspots:currspots});
+          });
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <a-scene background="color: #ECECEC">
+      <a-assets>
+        <img id="point1" src="https://i.imgur.com/BbR7AU9.png" crossorigin="anonymous"> 
+        <audio id="noise" src="https://cdn.glitch.global/6912cf07-8257-454c-a63c-540cb5d04213/MRI%20-%20Step.mp3.mp3?v=1677602085532" preload="auto"></audio>
+	      <img id="mriRoom" src="https://cdn.glitch.global/6912cf07-8257-454c-a63c-540cb5d04213/Screen%20Shot%202023-02-28%20at%2011.24.00%20AM.png?v=1677601444087" crossorigin="anonymous">
+        <img id="hallwayb" src="https://i.imgur.com/PRULpGH.jpg" crossorigin="anonymous">
+        <img id="hallwayc" src="https://i.imgur.com/pSmpxqp.jpg" crossorigin="anonymous">
+        <img id="classrooma" src="https://i.imgur.com/uwKO3YF.jpg" crossorigin="anonymous">
+        <img id="classroomb" src="https://i.imgur.com/1XFJO3Q.jpg" crossorigin="anonymous">
+        <img id="displaycase" src="https://i.imgur.com/evGHrqo.jpg" crossorigin="anonymous">
+        <img id="bb1" src="https://cdn.glitch.global/6912cf07-8257-454c-a63c-540cb5d04213/bb_1.png?v=1681260969657" crossorigin="anonymous">
+        <img id="bb2" src="https://cdn.glitch.global/6912cf07-8257-454c-a63c-540cb5d04213/bb_2.png?v=1681262414007" crossorigin="anonymous">
+        <img id="bb3" src="https://cdn.glitch.global/6912cf07-8257-454c-a63c-540cb5d04213/bb_3.png?v=1681262430525" crossorigin="anonymous">
+        <img id="bb4" src="https://cdn.glitch.global/6912cf07-8257-454c-a63c-540cb5d04213/bb_4.png?v=1681262436427" crossorigin="anonymous">
+        <img id="bb5" src="https://cdn.glitch.global/6912cf07-8257-454c-a63c-540cb5d04213/bb_5.png?v=1681262441828" crossorigin="anonymous">
+        <img id="bb6" src="https://cdn.glitch.global/6912cf07-8257-454c-a63c-540cb5d04213/bb_6.png?v=1681262445119" crossorigin="anonymous">
+        <img id="bb7" src="https://cdn.glitch.global/6912cf07-8257-454c-a63c-540cb5d04213/bb_7.png?v=1681262448512" crossorigin="anonymous">
+        <img id="bb8" src="https://cdn.glitch.global/bf1829eb-b7dc-4e01-8258-79a8f5f373bf/bb54.png?v=1681762156213" crossorigin="anonymous">
+        <img id="bb9" src="https://cdn.glitch.global/bf1829eb-b7dc-4e01-8258-79a8f5f373bf/bb55.png?v=1681762161508" crossorigin="anonymous">
+        <img id="bb10" src="https://cdn.glitch.global/bf1829eb-b7dc-4e01-8258-79a8f5f373bf/bb56.png?v=1681762168814" crossorigin="anonymous">
+        <img id="bb11" src="https://cdn.glitch.global/6912cf07-8257-454c-a63c-540cb5d04213/bb_11.png?v=1681262461470" crossorigin="anonymous">
+        <img id="bb12" src="https://cdn.glitch.global/6912cf07-8257-454c-a63c-540cb5d04213/bb_12.png?v=1681262465219" crossorigin="anonymous">
+        <img id="bb13" src="https://cdn.glitch.global/6912cf07-8257-454c-a63c-540cb5d04213/bb_13.png?v=1681262468444" crossorigin="anonymous">
+        <img id="mri" src="https://cdn.glitch.global/6912cf07-8257-454c-a63c-540cb5d04213/Screen%20Shot%202023-02-28%20at%2011.47.32%20AM.png?v=1677602857929" crossorigin="anonymous">
+        <img id="hotspot" src="https://i.imgur.com/nKhtgMK.png" crossorigin="anonymous">
+
+      </a-assets>
+    
+   <!-- test/debug object
+	<a-cylinder src="https://i.imgur.com/MZlstDX.jpg" height="3" radius="1.5" rotation="0 0 0" position="0 -1 0"></a-cylinder>
+  -->
+<a-entity id="spots" hotspots>
+	<!-- Landing Group-->
+	<a-entity id="group-point1">
+    <a-image spot="linkto:#mriRoom;spotgroup:group-mriRoom" position="0 -0.5 -10"></a-image>
+    <!--template 
+  <a-image spot="linkto:#NAMEHERE;spotgroup:group-NAMEHERE" position="XXX YYY ZZZ"></a-image>
+   -->
+  </a-entity>
+  <!-- user defined groups-->
+  <a-entity id="group-mriRoom" scale="0 0 0">
+    <a-image spot="linkto:#bb1;spotgroup:group-bb1" position="-2 -5 -15"></a-image>
+<!--     <a-image spot="linkto:#hallwayb;spotgroup:group-hallwayb" position="0 0 11"></a-image>
+    <a-image spot="linkto:#stairsa;spotgroup:group-stairsa" position="6 3 7"></a-image> -->
+  </a-entity>
+  
+  
+<!--   <a-entity sound="src: #noise"></a-entity> -->
+  
+  
+  <a-entity id="group-insideMRI" scale="0 0 0" sound="src: #noise">
+    <a-image spot="linkto:#bb1;spotgroup:group-bb2" position="-1 -2 -15"></a-image>
+    <a-image spot="linkto:bb3;spotgroup:group-bb2" position="-7 0 7"></a-image>
+  </a-entity>
+  
+  
+  <a-entity id="group-bb1" scale="0 0 0">
+    <a-image spot="linkto:#bb2;spotgroup:group-bb2" position="0 -2 -15"></a-image>
+    <a-image spot="linkto:#mriRoom;spotgroup:group-mriRoom" position="8 -2 -10"></a-image>
+    <a-image spot="linkto:#mriRoom;spotgroup:group-mriRoom" position="-10 -2 -10"></a-image>
+  </a-entity> 
+  
+   <a-entity id="group-bb2" scale="0 0 0">
+    <a-image spot="linkto:#bb3;spotgroup:group-bb3" position="-1 -2 -15"></a-image>
+    <a-image spot="linkto:#mriRoom;spotgroup:group-mriRoom" position="8 -2 -10"></a-image>
+     <a-image spot="linkto:#bb1;spotgroup:group-bb1" position="-10 -2 -10"></a-image>
+  </a-entity> 
+  
+   <a-entity id="group-bb3" scale="0 0 0">
+    <a-image spot="linkto:#bb4;spotgroup:group-bb4" position="-1 -2 -15"></a-image>
+    <a-image spot="linkto:#mriRoom;spotgroup:group-mriRoom" position="8 -2 -10"></a-image>
+    <a-image spot="linkto:#bb2;spotgroup:group-bb2" position="-10 -2 -10"></a-image>
+  </a-entity> 
+  
+   <a-entity id="group-bb4" scale="0 0 0">
+    <a-image spot="linkto:#bb5;spotgroup:group-bb5" position="-1 -2 -15"></a-image>
+    <a-image spot="linkto:#mriRoom;spotgroup:group-mriRoom" position="8 -2 -10"></a-image>
+    <a-image spot="linkto:#bb3;spotgroup:group-bb3" position="-10 -2 -10"></a-image>
+  </a-entity> 
+  
+  
+   <a-entity id="group-bb5" scale="0 0 0">
+    <a-image spot="linkto:#bb6;spotgroup:group-bb6" position="-1 -2 -15"></a-image>
+    <a-image spot="linkto:#mriRoom;spotgroup:group-mriRoom" position="8 -2 -10"></a-image>
+    <a-image spot="linkto:#bb4;spotgroup:group-bb4" position="-10 -2 -10"></a-image>
+  </a-entity> 
+  
+   <a-entity id="group-bb6" scale="0 0 0">
+    <a-image spot="linkto:#bb7;spotgroup:group-bb7" position="-1 -2 -15"></a-image>
+    <a-image spot="linkto:#mriRoom;spotgroup:group-mriRoom" position="8	-2 -10"></a-image>
+    <a-image spot="linkto:#bb5;spotgroup:group-bb5" position="-10 -2 -10"></a-image>
+  </a-entity> 
+  
+   <a-entity id="group-bb7" scale="0 0 0">
+    <a-image spot="linkto:#bb8;spotgroup:group-bb8" position="-1 -2 -15"></a-image>
+    <a-image spot="linkto:#mriRoom;spotgroup:group-mriRoom" position="8 -2 -10"></a-image>
+    <a-image spot="linkto:#bb6;spotgroup:group-bb6" position="-10 -2 -10"></a-image>
+  </a-entity> 
+  
+   <a-entity id="group-bb8" scale="0 0 0">
+    <a-image spot="linkto:#bb9;spotgroup:group-bb9" position="-1 -2 -15"></a-image>
+    <a-image spot="linkto:#mriRoom;spotgroup:group-mriRoom" position="8 -2 -10"></a-image>
+    <a-image spot="linkto:#bb7;spotgroup:group-bb7" position="-10 -2 -10"></a-image>
+  </a-entity> 
+  
+   <a-entity id="group-bb9" scale="0 0 0">
+    <a-image spot="linkto:#bb10;spotgroup:group-bb10" position="-1 -2 -15"></a-image>
+    <a-image spot="linkto:#mriRoom;spotgroup:group-mriRoom" position="8 -2 -10"></a-image>
+     <a-image spot="linkto:#bb8;spotgroup:group-bb8" position="-10 -2 -10"></a-image>
+  </a-entity> 
+  
+   <a-entity id="group-bb10" scale="0 0 0">
+    <a-image spot="linkto:#bb11;spotgroup:group-bb11" position="-1 -2 -15"></a-image>
+    <a-image spot="linkto:#mriRoom;spotgroup:group-mriRoom" position="8 -2 -10"></a-image>
+     <a-image spot="linkto:#bb9;spotgroup:group-bb9" position="-10 -2 -10"></a-image>
+  </a-entity> 
+  
+   <a-entity id="group-bb11" scale="0 0 0">
+    <a-image spot="linkto:#bb12;spotgroup:group-bb12" position="-1 -2 -15"></a-image>
+    <a-image spot="linkto:#mriRoom;spotgroup:group-mriRoom" position="8 -2 -10"></a-image>
+     <a-image spot="linkto:#bb10;spotgroup:group-bb10" position="-10 -2 -10"></a-image>
+  </a-entity> 
+  
+   <a-entity id="group-bb12" scale="0 0 0">
+    <a-image spot="linkto:#bb13;spotgroup:group-bb13" position="-1 -2 -15"></a-image>
+    <a-image spot="linkto:#mriRoom;spotgroup:group-mriRoom" position="8 -2 -10"></a-image>
+     <a-image spot="linkto:#bb11;spotgroup:group-bb11" position="-10 -2 -10"></a-image>
+  </a-entity> 
+  
+   <a-entity id="group-bb13" scale="0 0 0">
+    <a-image spot="linkto:#mri;spotgroup:group-mri" position="-1 -2 -15"></a-image>
+    <a-image spot="linkto:#mriRoom;spotgroup:group-mriRoom" position="8 -2 -10"></a-image>
+     <a-image spot="linkto:#bb13;spotgroup:group-bb13" position="-10 -2 -10"></a-image>
+  </a-entity> 
+  
+
+  </a-entity>
+      
+      <a-sky id="skybox" src="#point1" rotation="0 90 0"></a-sky>
+      
+      <a-entity id="cam" camera position="0 2 0" look-controls>
+        <a-entity
+          
+          animation__fusing="property: scale; startEvents: fusing; easing: 	linear; dur: 1600; from: .1 .1 .1; to: 0.05 0.05 0.05"
+          cursor="fuse: true;"
+          material="color: red; shader: flat"
+          position="0 0 -3"
+          geometry="primitive: ring"></a-entity>
+      </a-entity>
+    </a-scene>
+  </body>
+</html>
